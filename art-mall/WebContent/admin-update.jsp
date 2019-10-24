@@ -31,7 +31,9 @@
 						<label>价值</label><input type="text" name="art_price" value="${sessionScope.art.art_price }">
 					</div>
 					<div class="additem">
-						<label>缩略图</label><input type="file" name="art_cover" value="${sessionScope.art.art_cover }">
+						<label>缩略图</label>
+						<input type="hidden" name = "file_name" value = "${sessionScope.art.art_cover }">
+						<input type="file" name="art_cover" >
 					</div>
 					<div class="additem textwrap">
 						<label class="ptop">画品简介</label><textarea name="art_introduction">${sessionScope.art.art_introduction }</textarea>

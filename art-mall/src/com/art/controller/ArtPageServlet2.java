@@ -1,28 +1,34 @@
 package com.art.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.art.service.impl.AdminServiceImpl;
-import com.art.service.impl.UserServiceImpl;
+import com.alibaba.fastjson.JSON;
+import com.art.pojo.Art;
+import com.art.pojo.Page;
+import com.art.service.IArtService;
+import com.art.service.impl.ArtServiceImpl;
 
 /**
- * Servlet implementation class UserLonginServlet
+ * Servlet implementation class ArtPageServlet
  */
-@WebServlet("/UserLonginServlet")
-public class UserLonginServlet extends HttpServlet {
+@WebServlet("/ArtPageServlet2")
+public class ArtPageServlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private IArtService ias = new ArtServiceImpl();
+
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserLonginServlet() {
+    public ArtPageServlet2() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,37 +37,23 @@ public class UserLonginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		request.setCharacterEncoding("utf-8");
+		String strPageno = request.getParameter("no");
+		String strSize = request.getParameter("size");
 		
-		String user_name = request.getParameter("user-name");
-		String user_password = request.getParameter("user-password");
-		
-		response.setContentType("text/html;charset=utf-8");
-		
-		PrintWriter out = response.getWriter();
-		
-		UserServiceImpl user = new UserServiceImpl();
-		
-
-		switch (user.checkLogin(user_name, user_password)) {
-		case 1:
-			request.getSession().setAttribute("user_name", user_name);
-			response.sendRedirect("/art-mall/ArtPageServlet2");
-			break;
-			
-		case 2:
-			out.print("<h3>用户名密码错误</h3>");
-			break;
-			
-		case 3:
-			out.print("<h3>用户不存在</h3>");
-			break;
-
+		int pageno = 1,size = 6;
+		if (strPageno!=null) {
+			pageno = Integer.parseInt(strPageno);
 		}
-	
+		if (strSize!=null) {
+			size = Integer.parseInt(strSize);
+		}
+		Page page = ias.getArtsByPage(size, pageno);
+		request.getSession().setAttribute("page", page);
+		
+		response.sendRedirect("/art-mall/user-index.jsp");
+		
 	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

@@ -13,7 +13,7 @@
 	3. demo3
 	4. demo4
 3. 课后练习：src/com/test & WebContent/
-    1. 作业1
+    1. 作业1提示
 ****
 
 

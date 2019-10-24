@@ -65,11 +65,19 @@ public class UpdateArtServlet extends HttpServlet {
 						break;
 					case "art_detail":
 						art.setArt_detail(value);
+						break;
 					case "art_id":
 						art.setArt_id(Integer.parseInt(value));
+						break;
+					case "file_name":
+						art.setArt_cover(value);
 					}
 				}else {
+					if (fi.getSize()==0) {
+						continue;
+					}
 					String pagepath=fi.getName();
+					
 					String filename = FilenameUtils.getName(pagepath);
 					art.setArt_cover("/image/"+filename);
 					String path = this.getServletContext().getRealPath("/image");

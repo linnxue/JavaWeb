@@ -10,13 +10,22 @@
     <link rel="stylesheet" type="text/css" href="style/index.css" />
 </head>
 <body>
+<c:if test="${empty page }">
+<c:redirect url="/ArtPageServlet">
+
+</c:redirect>
+</c:if>
     <div class="header">
         <div class="logo f1">
             <img src="image/logo.png">
         </div>
         <div class="auth fr">
             <ul>
-                <li><a href="#">登录</a></li>
+            <c:choose>
+            <c:when test="${empty user_name }"><li><a href="#">登录</a></li></c:when>
+            <c:otherwise><li> ${user_name }</li></c:otherwise>
+            </c:choose>
+                
                 <li><a href="#">注册</a></li>
             </ul>
         </div>
@@ -53,7 +62,7 @@
             <ul>
               
               <c:forEach begin="1" end="${sessionScope.page.totalPage }" var = "no">
-                	<li><a href="/art-mall/ArtPageServlet?no=${no }">${no }</a></li>
+                	<li><a href="/art-mall/ArtPageServlet2?no=${no }">${no }</a></li>
               </c:forEach>
               
             </ul>
